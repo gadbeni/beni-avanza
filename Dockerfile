@@ -22,4 +22,5 @@ USER appuser
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# CAMBIA ESTO: Usar Gunicorn en lugar de runserver
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "reportbump.wsgi:application"]
