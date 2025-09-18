@@ -1,0 +1,548 @@
+/* 'bush': {
+    '50': '#effaf2',
+    '100': '#d9f2dd',
+    '200': '#b5e5c0',
+    '300': '#85d09a',
+    '400': '#52b572',
+    '500': '#309955',
+    '600': '#207b42',
+    '700': '#1a6237',
+    '800': '#174e2e',
+    '900': '#144027',
+    '950': '#0b2818',
+}, */
+
+:root{
+    --primary-text-color: #FFF;
+    --color-primary: #FFC107;
+    --color-primary-light: #ffd350;
+    --color-fondo-700: #207543;
+    --color-fondo-950: #0d3c22;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    outline: none;
+    border: none;
+    text-decoration: none;
+    /* transition: all .2s linear; */
+}
+*{
+    font-family: "Roboto", sans-serif;
+}
+
+header nav{
+    padding-top: 1rem !important;
+}
+header .navbar-brand{
+    font-size: 1rem;
+}
+.navbar-toggler{
+    border: solid;
+    color: var(--primary-text-color);
+}
+.icon-nav{
+    color: var(--primary-text-color);
+    font-size: 2rem;
+}
+.navbar-scrolled{
+    background-color: var(--color-fondo-700);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.section-gradient{
+    background: linear-gradient(to bottom, var(--color-fondo-700),var(--color-fondo-950));
+    color: white;
+    padding: 0;
+    padding-top: 5rem;
+}
+.section-dark{
+    background-color: var(--color-fondo-950);
+    color: white;
+    padding: 2rem 0;
+}
+.title-logo{
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    line-height: 20px;
+}
+.subtitle-logo{
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.banner-float{
+    width: 100%;
+    height: 100px;
+    padding: 1rem;
+    background-color: var(--color-fondo-700);
+    border: 1px solid white;
+    position: absolute;
+    left: 0;
+    bottom: calc(0% - 50px);
+}
+main .Carousel img{
+    min-height: 60vh;
+    max-height: 100vh;
+    object-fit: cover;
+    filter: grayscale(30%);
+}
+.Carousel #carousel{
+    position: relative;
+}
+.Carousel #carousel .overlay{
+    z-index: 1; 
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    color: white;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 50%, var(--color-fondo-950) 95%);
+}
+main .Carousel .overlay a:hover, main #place-time a{
+    text-decoration: none;
+}
+.limit-text-container{
+    max-width: 700px;
+    margin: 0 auto;
+}
+.pre-title-page{
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: "Roboto Serif", sans-serif;
+    text-transform: uppercase;
+}
+.title-page{
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-family: "Roboto Serif", sans-serif;
+    text-transform: uppercase;
+}
+.my-btn-primary{
+    color: black;
+    background-color: var(--color-primary);
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 0;
+}
+.my-btn-primary:hover{
+    color: black;
+    background-color: var(--color-primary-light);
+}
+.cta-btn-outline{
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    text-transform: uppercase;
+    transition: all 0.5s ease;
+    border-radius: 0%;
+}
+.cta-btn-outline:hover{
+    color: white;
+    background-color: var(--color-primary);
+}
+.my-border-dark{
+    border: 2px solid var(--color-fondo-950);
+    padding: 0.5rem;
+}
+.cta-btn-dark{
+    color: white;
+    background-color: var(--color-fondo-950);
+    text-transform: uppercase;
+    transition: all 0.5s ease;
+    font-size: 1rem;
+    padding: 0.5rem 3rem;
+    height: fit-content;
+    border-radius: 0;
+}
+.cta-btn-dark:hover{
+    background-color: var(--color-fondo-950);
+    color: var(--color-primary);
+}
+.pre-subtitle-page{
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: "Roboto Serif", sans-serif;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    text-align: center;
+}
+.subtitle{
+    font-size: 1.5rem;
+    font-weight: 300;
+    text-align: center;
+    text-transform: uppercase;
+}
+.ly-b{
+    font-size: 2rem;
+}
+.about-section {
+    text-align: center;
+}
+
+.about-images{
+    position: relative;
+    margin: 5rem auto;
+}
+.image-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    transform: rotate(-45deg);
+}
+.image-container img {
+    width: 141%; /* Aumenta el tamaño de la imagen */
+    height: 141%; /* Aumenta el tamaño de la imagen */
+    position: absolute;
+    top: -20.5%; /* Centra la imagen rotada */
+    left: -20.5%; /* Centra la imagen rotada */
+    transform: rotate(45deg);
+    object-fit: cover;
+    object-position: center;
+}
+.image-container-main{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    transform: rotate(-45deg);
+}
+.image-container-main img {
+    width: 141%; /* Aumenta el tamaño de la imagen */
+    height: 141%; /* Aumenta el tamaño de la imagen */
+    position: absolute;
+    top: -20.5%; /* Centra la imagen rotada */
+    left: -20.5%; /* Centra la imagen rotada */
+    transform: rotate(45deg);
+    object-fit: cover;
+    object-position: center;
+}
+
+
+
+/* .image-container p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 18px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+} */
+.img-second{
+    position: absolute;
+    top: 150px;
+    right: 50%;
+    border: 0.5rem solid var(--color-fondo-950);
+}
+.img-second-e{
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    border: 0.5rem solid var(--color-fondo-950);
+}
+
+.gallery img{
+    height: 500px;
+    object-fit: cover;
+    filter: grayscale(30%);
+}
+#banner {
+    position: relative;
+    background-image: url('/static/tesorosbeni/images/img3.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 200px;
+    z-index: 1;
+}
+#banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.1); /* Overlay oscuro */
+    z-index: -1;
+}
+#banner img {
+    filter: grayscale(30%); /* Escala de grises */
+}
+#banner .d-flex{
+    height: 100%;
+}
+footer{
+    /* padding: 24px 0; */
+    position: relative;
+    padding: 2rem 0;
+    /* background-image: url('/static/reporbump/); */
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+/* footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to bottom, var(--color-fondo-950), rgba(0, 0, 0, 0.8));
+    z-index: -1;
+} */
+footer *{
+    color: white;
+
+}
+footer a{
+    color: white;
+    text-decoration: none;
+}
+footer .navbar-brand{
+    color: white;
+    font-weight: bold;
+}
+footer .navbar-brand:hover{
+    color: white;
+}
+footer hr{
+    border-top: 1px solid var(--color-primary);
+}
+.header-page{
+    background-color: var(--color-fondo-700);
+}
+#form-send {
+    position: relative;
+    background-image: url('/static/tesorosbeni/images/img3.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+#form-send::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to bottom, var(--color-fondo-950) , rgba(11, 40, 24,0.8));
+    z-index: -1; /* Asegura que el overlay esté debajo del contenido de #header-page */
+}
+#form-send .card{
+    background-color: #06140c;
+    color: #d9f2dd;
+
+}
+#form-send .card input,#form-send .card textarea{
+    background-color: #06140c;
+    color: white;
+    border: none;
+    border-bottom: 1px solid var(--color-fondo-950);
+}
+#form-send .card input:focus ,#form-send .card textarea:focus{
+    border: none;
+    border-bottom: 1px solid var(--color-primary);
+    box-shadow: none;
+}
+#form-send #id_photo{
+    width: 100%;
+}
+
+@media (min-width: 576px){
+    p{
+        font-size: 1.25rem;
+    }
+    .pre-title-page{
+        font-size: 1.5rem;
+    }
+    .title-page{
+        font-size: 3rem;
+        font-weight: 400;
+        font-family: "Roboto Serif", sans-serif;
+        text-transform: uppercase;
+    }
+    .image-container {
+        width: 125px;
+        height: 125px;
+    }
+    .image-container-main{
+        width: 250px;
+        height: 250px;
+    }
+    .pre-subtitle-page{
+        font-size: 1.5rem;
+    }
+    .subtitle{
+        font-size: 3rem;
+    }
+    
+}
+@media (min-width: 768px){
+    .p-list{
+        border-left: 1px solid var(--color-primary);
+        padding-left: 1rem;
+        position: relative;
+        height: 230px;
+    }
+    .p-list::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -5px; /* Ajusta según sea necesario */
+        width: 10px; /* Ajusta según sea necesario */
+        height: 10px; /* Ajusta según sea necesario */
+        background-color: var(--color-primary);
+        border-radius: 50%;
+    }
+    .p-list-e{
+        border-right: 1px solid var(--color-primary);
+        padding-right: 1rem;
+        position: relative;
+        height: 230px;
+    }
+    .p-list-e::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -5px; /* Ajusta según sea necesario */
+        width: 10px; /* Ajusta según sea necesario */
+        height: 10px; /* Ajusta según sea necesario */
+        background-color: var(--color-primary);
+        border-radius: 50%;
+    }
+}
+
+/* maps*/
+#main-map{
+    margin: 0;
+    padding: 0;
+}
+.container_map{
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+}
+.container_map aside{
+    flex: 0 0 50px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-top-left-radius: 25px;
+}
+.menu-aside{
+    margin-top: 1rem;
+    font-size: 1.5rem;
+}
+.menu-aside ul{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0;
+}
+.menu-aside ul li{
+    text-align: center;
+}
+.menu-aside ul li div{
+    cursor: pointer;
+}
+#btn-aside{
+    cursor: pointer;
+}
+.container_map aside .options-aside{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    padding: 0.5rem;
+    height: 100%;
+    width: 100%;
+}
+.container_map aside .options-aside.active{
+    display: block;
+}
+.map-header{
+    position: absolute;
+    top: 1rem;
+    left: 5rem;
+    z-index: 1000;
+    padding: 0.5rem 2rem;
+    border-radius: 20px;
+    background-color: var(--color-fondo-700);
+}
+.map-header p{
+    margin: 0;
+}
+.pop-maker{
+    text-decoration: none;
+}
+.pop-maker span{
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--color-primary);
+}
+.btn-back{
+    background-color: white;
+    color: black;
+    display: flex;
+    text-decoration: none;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 30px;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    top: 5rem;
+    left: 0.7rem;
+    z-index: 1000;
+}
+.btn-back i{
+    font-size: 1.5rem;
+}
+.btn-back span{
+    font-size: 0.5rem;
+    text-align: center;
+}
+.back{
+    text-decoration: none;
+    color: black;
+    font-size: 1.5rem;
+}
+/*end maps*/
+@media (min-width: 579px) {
+    .container_map aside .options-aside{
+        width: 300px;
+    }
+}
+.menu_top_aside{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0rem;
+    font-size: 1rem;
+    color: var(--gray);
+}
+.map{
+    flex: 1;
+    position: relative;
+}
+.form-filter{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.form-filter select{
+    padding: 0.5rem;
+    font-size: 16px;
+    border: .1rem solid rgba(0,0,0,.3);
+    border-radius: .5rem;
+}
