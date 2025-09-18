@@ -1,0 +1,61 @@
+<div class="table-responsive">
+    <div class="col-12">
+    
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr >
+                    <th>N#</th>
+                    <th>Foto</th>
+                    <th>Nombre completo</th>
+                    <th>Organización</th>
+                    <th>Provincia</th>
+                    <th>Categoria</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agent in agents %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <img src="{{ agent.thumbnail.url}}" alt="" width="200px">    
+                    </td>
+                    <td>
+                        {{ agent.full_name }}
+                    </td>
+                    <td>
+                        {{ agent.organization}}
+                    </td>
+                    <td>
+                        {{ agent.get_province_display}}
+                    </td>
+                    <td>
+                        {% if agent.category %}
+                            {{ agent.category.name }}
+                        {% else  %}
+                            Sin categoria
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% comment %} {% if perms.report_potholes.view_agent %}
+                            <a href="{% url 'admin_ssu:report_potholes:agent_detail' agent.id %}" class="btn btn-sm btn-warning"><i class="fa fa-eye"></i><span class="txt-btn"> Detalles</span></a>
+                        {% endif %} {% endcomment %}
+                        {% if perms.report_potholes.change_agent %}
+                        <a href="{% url 'admin_ssu:report_potholes:agent_edit' agent.id %}" class="btn btn-sm btn-primary"><i class="fa fa-edit">
+                            </i><span class="txt-btn"> Editar</span>
+                        </a>
+                        {% endif %}
+                        {% if perms.report_potholes.delete_agent %} 
+                        <a href="#" data-id="{{ agent.id }}" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="fa fa-trash"></i><span class="txt-btn"> Eliminar</span>
+                        </a>
+                        {% endif %}
+                        
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% include "admin_ssu/utils/pagination.html" %}

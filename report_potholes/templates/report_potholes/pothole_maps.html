@@ -1,0 +1,100 @@
+
+{% extends "reportbump/layouts/base_vacio.html" %}
+{% load static %}
+{% block title %}Mapa{% endblock title %}
+{% block content %}
+<section id="main-map" class="section-gradient">
+    <div class="container_map">
+        <aside>
+            <nav class="menu-aside">
+                <ul>
+                    <li>
+                        <div id="menu-bar-aside" class="fa fa-bars"></div>
+                    </li>
+                    {% comment %} <li>
+                        
+                    </li> {% endcomment %}
+                </ul>
+            </nav>
+            <div id="menu-aside" class="options-aside section-gradient">
+                <div class="menu_top_aside">
+                    <h3 style="color:white;margin: 0;">Filtrar</h3>
+                    <i id="btn-aside" class="fa fa-close" style="font-size: 1.5rem"></i>
+                </div>
+                <div class="col-12 col-md d-flex justify-content-center">
+                    <img src="{% static 'reportbump/images/doctor-unzueta.png' %}" style="width: 100%; max-width: 500px">
+                </div>
+                <form class="form-filter" action="">
+                    <select name="category" id="">
+                        <option value="">Todas las Obras</option>
+                        {% for category in categories %}
+                            {% if request.GET.category == category.id|stringformat:"s" %}
+                                <option value="{{ category.id }}" selected>{{ category.name }}</option>
+                            {% else %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn my-btn-primary">Filtrar</button>
+                </form>
+            </div>
+        </aside>
+        <div class="map">
+            <div id="mapid" style="height: 100vh; width: 100%;"></div>
+            <div class="map-header">
+                <p>
+                    <strong>Total:</strong> {{total_potholes}}
+                </p>
+            </div>
+            <a href="/" class="btn-back">
+                <i class="fa fa-arrow-circle-left"></i>
+                <span>Volver</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+{% block css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+{% endblock css %}
+{% block js %}
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var potholes = JSON.parse('{{ potholes|escapejs }}');
+    if (potholes.length > 0) {
+        // vista inicial del mapa // -14.834850122248268, -64.90412867204859
+        var map = L.map('mapid').setView([-13.746941, -65.388259], 7);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var greenIcon = L.icon({
+            iconUrl: 'https://i.imgur.com/nH6Sg3Y.png',
+            iconSize: [45, 61], // size of the icon
+            iconAnchor: [22, 41], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -41] // point from which the popup should open relative to the iconAnchor
+        });
+        
+        potholes.forEach(function(pothole) {
+            //var marker = L.marker([pothole.latitude, pothole.longitude], {icon: greenIcon}).addTo(map);
+            if ( pothole.category_icon != null ) {
+                console.log(pothole.category_icon);
+                var iconUrl = pothole.category_icon
+                var icon = L.icon({
+                    iconUrl: iconUrl,
+                    iconSize: [45, 61],
+                    iconAnchor: [22, 41],
+                    popupAnchor: [0, -41]
+                });
+                var marker = L.marker([pothole.latitude, pothole.longitude], {icon: icon}).addTo(map);
+            } else {
+                var marker = L.marker([pothole.latitude, pothole.longitude]).addTo(map);
+            }
+            //console.log(pothole);
+            marker.bindPopup('<div style="text-align: center" ><a class="pop-maker" href="' + pothole.url + '"><span>'+ pothole.title +'</span><br> <img src="' + pothole.image + '" alt="" width="100px"></div></a>');
+        });
+    }
+</script>
+{% endblock js %}

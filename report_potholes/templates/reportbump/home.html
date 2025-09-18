@@ -1,0 +1,217 @@
+
+{% extends "reportbump/layouts/base.html" %}
+{% load static %}
+{% block meta %}
+    <meta name="description" content="El Beni Avanza muestra las obras y proyectos realizados durante la gestión del gobernador, mejorando la calidad de vida en el Beni.">
+    <meta name="keywords" content="Beni, obras, proyectos, gobernador, desarrollo, infraestructura, bienestar">
+    <meta name="author" content="CodigoSimple.Dev">
+
+    <meta property="og:title" content="El Beni Avanza - Obras que Transforman">
+    <meta property="og:description" content="El Beni Avanza muestra las obras y proyectos realizados durante la gestión del gobernador, mejorando la calidad de vida en el Beni.">
+    {% comment %} <meta property="og:image" content="url-de-la-imagen.jpg">
+    <meta property="og:url" content="url-de-tu-pagina-web"> {% endcomment %}
+    <meta property="og:type" content="website">
+
+{% endblock meta %}
+{% block title %}El Beni Avanza{% endblock title %}
+{% block content %}
+<!-- Carousel -->
+{% comment %} <section class="Carousel">
+    <div id="carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-pause=“false”>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{% static 'reportbump/images/img1.jpeg' %}" class="d-block w-100" alt="Hawai playa">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'reportbump/images/img1.jpeg' %}" class="d-block w-100" alt="Mar en Hawai">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'reportbump/images/img1.jpeg' %}" class="d-block w-100" alt="Playa en Hawai">
+        </div>
+      </div>
+      <div class="overlay">
+        <div class="container h-100">
+          <div class="row align-items-center h-100">
+            <div class="col text-center">
+                <div class="limit-text-container">
+                    <p class="pre-title-page">Empieza a Explorar</p>
+                    <h1 class="title-page">Descubre los Tesoros Ocultos del Beni</h1>
+                </div>
+                <div class="mt-4">
+                    
+                    <a href="{% url "maps" %}" class="btn cta-btn-outline">IR AL MAPA</a>
+                    
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section> {% endcomment %}
+{% comment %} <a href="{% url "report" %}" class="btn my-btn-primary">COMPARTE TU DESCUBRIMIENTO</a> {% endcomment %}
+<section class="section-gradient">
+    <div class="container" style="position: relative">
+        <div class="row">
+            <div class="col d-flex align-items-center order-md-2">
+                <div class="py-5 text-center text-md-start">
+                    <span>Transformando el Beni, un paso a la vez</span>
+                    <h1>Obras que Transforman.</h1>
+                    <p>A lo largo de nuestra gestión, hemos llevado a cabo proyectos que no solo embellecen nuestro departamento, sino que también mejoran la calidad de vida de nuestros ciudadanos.</p>
+                    <div >
+                        <a href="#about" class="btn my-btn-primary">Nosotros</a>
+                        <a href="{% url "maps" %}" class="btn cta-btn-outline" style="border-radius: 0px">IR AL MAPA</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md d-flex justify-content-center">
+                <img src="{% static 'reportbump/images/doctor-unzueta.png' %}" style="width: 100%; max-width: 500px">
+            </div>
+        </div>
+        {% comment %} <div class="banner-float">
+            <h5 class="text-center">Lorem ipsum dolor sit amet.</h5>
+            <p class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam illo eos laudantium veniam harum ducimus!</p>
+                    
+        </div> {% endcomment %}
+    </div>
+</section>
+<section id="about" class="about py-5">
+    <div class="container mb-5">
+        <div class="limit-text-container" >
+            <p class="pre-subtitle-page">Nosotros</p>
+            <h2 class="subtitle">Conoce Nuestra Misión</h2>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 p-md-0">
+                <div class="d-flex align-items-center" style="height: 100%">
+                    <p class="text-center text-md-start">
+                        Estamos comprometidos con el desarrollo sostenible y el bienestar de nuestra comunidad. Nuestro equipo trabaja incansablemente para implementar proyectos que generen un impacto positivo y duradero. Creemos en la transparencia, la eficiencia y la participación ciudadana como pilares fundamentales para construir un mejor futuro para todos.
+                    </p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 p-0">
+                <div class="d-flex justify-content-center">
+                    <div class="">
+                        <img src="{% static 'reportbump/images/obras_unzueta.png' %}" 
+                            style="width: 100%; max-width: 500px"
+                            alt="Obras Realizadas">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="submit" class="submit-findings py-5" style="background-color: #f1fcf4">
+    <div class="container">
+        <div class="limit-text-container" >
+            <p class="pre-subtitle-page">Mirando al Futuro</p>
+            <h2 class="subtitle">Comprometidos con el mañana</h2>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12 col-md-6 order-md-2 pb-3">
+                <img src="{% static 'reportbump/images/img3.jpeg' %}" class="d-block w-100" alt="...">
+            </div>
+            <div class="col-12 col-md-6">
+                <p>
+                    Nuestro compromiso con el desarrollo del Beni no se detiene aquí. Descubre las iniciativas y proyectos que tenemos planeados para seguir avanzando y mejorando nuestra comunidad en los próximos años.
+                </p>
+                <a href="{% url "maps" %}" class="btn my-btn-primary">Más Información</a>
+            </div>
+            
+        </div>
+    </div>
+</section>
+<section id="discoveries" class="discoveries py-5 section-gradient" >
+    <div class="container">
+        <div class="limit-text-container" >
+            <p class="pre-subtitle-page">Descubre</p>
+            <h2 class="subtitle">Impacto visible en cada rincón</h2>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12 col-md-6 pb-3">
+                <div class="gallery">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <img src="{% static 'reportbump/images/img5.jpeg' %}" class="d-block w-100" alt="...">
+                          </div>
+                          <div class="carousel-item">
+                            <img src="{% static 'reportbump/images/img4.jpeg' %}" class="d-block w-100" alt="...">
+                          </div>
+                          <div class="carousel-item">
+                            <img src="{% static 'reportbump/images/img2.jpeg' %}" class="d-block w-100" alt="...">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="discovery-info">
+                    <p>
+                        Descubre las obras más significativas realizadas durante nuestra gestión, que han transformado y mejorado la vida en el Beni. Cada proyecto refleja nuestro compromiso con el progreso y el bienestar de todos.
+                    </p>
+                    <a href="{% url "maps" %}" class="btn cta-btn-outline" style="border-radius: 0px">IR AL MAPA</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% comment %} <section id="banner">
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="my-border-dark">
+            <a href="#submit-form" class="btn cta-btn-dark">IR AL MAPA</a>
+        </div>
+    </div>
+</section> {% endcomment %}
+
+{% comment %} <section id="submit" class="submit-findings section-dark">
+    <div class="container">
+        <div class="limit-text-container" >
+            <p class="pre-subtitle-page">Comparte</p>
+            <h2 class="subtitle">Comparte tus Descubrimientos</h2>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12 col-md-6">
+                <p>
+                    En "Tesoros del Beni", creemos que cada hallazgo es valioso y merece ser compartido con el mundo. Por eso, invitamos a todos los exploradores, tanto locales como visitantes, a contribuir a nuestro proyecto enviando fotos y ubicaciones de sus propios descubrimientos arqueológicos en la región de Beni.
+                </p>
+                <p>
+                    Para participar, simplemente completa nuestro formulario de envío, donde podrás subir tus fotos y proporcionar la ubicación exacta de tu hallazgo. Tu contribución no solo ayudará a enriquecer nuestro mapa interactivo, sino que también jugará un papel importante en la preservación y difusión de la rica historia de Beni.
+                </p>
+                <a href="#submit-form" class="btn my-btn-primary">Comparte Ahora</a>
+            </div>
+            <div class="col-12 col-md-6">
+                <img src="{% static 'tesorosbeni/images/img2.jpg' %}" height="300px" class="d-block w-100" alt="...">
+            </div>
+        </div>
+    </div>
+</section> {% endcomment %}
+
+{% comment %} <section id="map" class="interactive-map section-dark">
+    <div class="container">
+        <div class="limit-text-container" >
+            <p class="pre-subtitle-page">Explorar</p>
+            <h2 class="subtitle">Explora el Mapa</h2>
+        </div>
+        <div class="d-flex justify-content-center mt-5">
+            <a href="#submit-form" class="btn cta-btn-outline">Explorar Ahora</a>
+        </div>
+    </div>
+    
+</section> {% endcomment %}
+<!-- Carousel -->
+{% endblock content %}

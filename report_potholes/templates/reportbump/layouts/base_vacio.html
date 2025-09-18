@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        
+        {% endblock title %}
+    </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% comment %} <link rel="icon" href="{% static 'reportbump/logos/logo.ico' %}"> {% endcomment %}
+    <!-- reference CSS file -->
+    <link rel="stylesheet" href="{% static 'admin_ssu/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'reportbump/css/style.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap" rel="stylesheet">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLMSSJH905"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-JLMSSJH905');
+        </script>
+    {% block css %}
+    
+    {% endblock css %}
+</head>
+<body>
+    <main>
+        {% block content %}
+            
+        {% endblock content %}
+    </main>
+    {% comment %} <a href="#home" class="fa fa-chevron-up" id="scroll-top"></a> {% endcomment %}
+    <script>
+        let btnAside = document.getElementById('menu-bar-aside');
+        let menuAside = document.getElementById('menu-aside');
+        let btnClose = document.getElementById('btn-aside');
+        btnClose.onclick = () =>{
+            menuAside.classList.remove('active');
+        }
+        btnAside.onclick = () =>{
+            menuAside.classList.toggle('active');
+        }
+    </script>
+    <script src="{% static 'admin_ssu/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    {% block js %}
+    
+    {% endblock js %}
+</body>
+</html>

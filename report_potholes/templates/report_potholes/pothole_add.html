@@ -1,0 +1,147 @@
+{% extends "reportbump/layouts/base.html" %}
+{% load static %}
+{% block title %}Reporta {% endblock title %}
+{% block content %}
+<section id="home"class="home">
+    <div class="panel">
+        <h1 class="heading main">Reportar <span></span></h1>
+        <div class="row">
+            <form id="my-form" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="inputBox">
+                    <label for="reported_by">{{ form.reported_by.label }}</label>
+                    {{ form.reported_by }}
+                </div>
+                <div class="inputBox">
+                    <label for="phone">{{ form.phone.label }}</label>
+                    {{ form.phone }}
+                </div>
+                <div class="inputBox">
+                    <label for="photo">{{ form.photo.label }}</label>
+                    {{ form.photo }}
+                </div>
+                <div id="mapid" style="height: 180px; width: 100%;"></div>
+                <div class="inputBox">
+                    <label for="latitude">{{ form.latitude.label }}</label>
+                    {{ form.latitude }}
+                </div>
+                <div class="inputBox">
+                    <label for="longitude">{{ form.longitude.label }}</label>
+                    {{ form.longitude }}
+                </div>
+                <button type="submit" id="submit-button" class="btn-block">Enviar</button>
+            </form>
+            
+        </div>
+    </div>
+    <span id="spinner" class="loader" style=""></span>
+    <div id="backdrop"></div>
+</section>
+
+{% endblock content %}
+{% block css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+    .loader {
+        display: none;
+        width: 200px;
+        height: 200px;
+        border: 20px solid #FFF;
+        border-bottom-color: #FF3D00;
+        z-index: 9001;
+        border-radius: 50%;
+        box-sizing: content-box;
+        animation: rotation 1s linear infinite;
+    
+        position: fixed;
+        top: calc(50% - 100px);
+        left: calc(50%-100px);
+        transform: translate(-50%, -50%);
+    }
+    @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    #backdrop {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9000;
+    }
+</style>
+{% endblock css %}
+{% block js %}
+<script src="{% static 'admin_ssu/jquery/jquery.min.js' %}"></script>
+<script>
+    document.querySelector('#my-form').addEventListener('submit', function(event) {
+        //event.preventDefault();
+        var button = document.getElementById('submit-button');
+        var spinner = document.getElementById('spinner');
+        var backdrop = document.getElementById('backdrop');
+        button.textContent = 'Enviando...';
+        button.disabled = true;
+        spinner.style.display = 'block';
+        backdrop.style.display = 'block';
+    
+        // Simula una demora de 3 segundos antes de enviar el formulario
+        //setTimeout(function() {
+        //    document.querySelector('#my-form').submit();
+        //}, 100);
+    });
+</script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('mapid').setView([51.505, -0.09], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var marker = L.marker([51.5, -0.09]).addTo(map);
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(setPosition);
+        } else { 
+            alert("La geolocalización no es soportada por este navegador.");
+        }
+    }
+
+    function setPosition(position) {
+        document.getElementById('id_latitude').value = position.coords.latitude;
+        document.getElementById('id_longitude').value = position.coords.longitude;
+        var location = [position.coords.latitude, position.coords.longitude];
+        marker.setLatLng(location);
+        map.setView(location);
+        map.invalidateSize();
+    }
+
+    window.onload = function() {
+        getLocation();
+    };
+</script>
+{% comment %} <script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(setPosition);
+        } else { 
+            alert("La geolocalización no es soportada por este navegador.");
+        }
+    }
+
+    function setPosition(position) {
+        document.getElementById('id_latitude').value = position.coords.latitude;
+        document.getElementById('id_longitude').value = position.coords.longitude;
+    }
+
+    window.onload = getLocation;
+</script> {% endcomment %}
+{% endblock js %}

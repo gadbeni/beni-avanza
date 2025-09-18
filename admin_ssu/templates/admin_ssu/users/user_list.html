@@ -1,0 +1,237 @@
+{% extends "admin_ssu/master.html" %}
+{% block title %} {{ title }} {% endblock title %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="heading">
+                <i class="fa fa-user"></i> {{ title }}
+                {% if perms.auth.add_user %}
+                <a href="{% url "admin_ssu:user_create" %}" class="btn btn-primary"><i class="fa fa-plus-circle"></i>Nuevo</a>
+                {% endif %}
+            </h1>
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="search-div">
+                        <input class="form-control" type="text" id="search" placeholder="Buscar usuarios">
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <div class="col-12">
+                        
+                            <table id="table_users" class="table table-hover table-bordered">
+                                <thead>
+                                    <tr >
+                                        <th>N#</th>
+                                        <th>Nombre Usuario</th>
+                                        <th>Nombre Completo</th>
+                                        <th>Email</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="search_results" style="display: none;">
+
+                                </tbody>
+                                <tbody id="original_data">
+                                    {% for user in users %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>
+                                            {% if user.is_superuser %}
+                                                <span class="badge text-bg-primary">Admin</span> <br>
+                                            {% endif %}
+                                            {% if user.is_active %}
+                                                <span class="badge text-bg-success">Activo</span>
+                                            {% else %}
+                                                <span class="badge text-bg-danger">Inactivo</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if perms.auth.view_user %}
+                                                <a href="{% url 'admin_ssu:user_detail' user.id %}" class="btn btn-sm btn-warning"><i class="fa fa-eye"></i></a>
+                                            {% endif %}
+                                            {% if perms.auth.change_user %}
+                                                <a href="{% url 'admin_ssu:user_edit' user.id %}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                            {% endif %}
+                                            
+                                            
+                                            <a href="#" class="btn btn-sm my-btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ user.id }}"><i class="fa fa-trash"></i></a>
+                                            
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="pagination" class="row">
+                        <div class="col-md-6">
+                            <span class="step-links d-flex justify-content-center justify-content-md-start">
+                                <span class="current">
+                                    Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                                </span>
+                            </span>
+                        </div>
+                        <div class="col">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination d-flex justify-content-center justify-content-md-end">
+                                    {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo; <span class="pagi-hidden">Anterior</span></span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="?page=1"> 1 </a></li>
+                                    <li class="page-item disabled"><a class="page-link" href=""> ... </a></li>
+                                    <li class="page-item active"><span class="page-link">{{ page_obj.number }} </span></li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo; <span class="pagi-hidden">Anterior</span></span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active"><span class="page-link">{{ page_obj.number }} </span></li>
+                                    {% endif %}
+                                                                        
+                                    
+                                    {% comment %} {% for i in page_obj.paginator.page_range %}
+                                        {% if page_obj.number == i %}
+                                            <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                                        {% else %}
+                                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                        {% endif %}
+                                    {% endfor %} {% endcomment %}
+                                    
+                                    
+                                    {% if page_obj.has_next %}
+                                    <li class="page-item disabled"><a class="page-link" href=""> ... </a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"> {{ page_obj.paginator.num_pages }} </a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true"><span class="pagi-hidden">Siguiente</span> &raquo;</span>
+                                        </a>
+                                    </li>
+                                    {% else  %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="" aria-label="Next">
+                                            <span aria-hidden="true"><span class="pagi-hidden">Siguiente</span> &raquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                        
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header my-bg-danger" data-bs-theme="dark">
+          <h1 class="modal-title fs-5" id="deleteModalLabel"> <i class="fa fa-trash"></i> Eliminar</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">  
+            <p>¿Está seguro de eliminar este usuario?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-gray" data-bs-dismiss="modal">Cancelar</button>
+          <form action="" method="POST" id="deleteForm">
+            {% csrf_token %}
+            <button type="submit" class="btn my-btn-danger">Eliminar</button>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock content %}
+{% block js %}
+<script>
+    $('#search').on('input', function() {
+        var query = $(this).val();
+        if (query.length > 3) {
+            $.ajax({
+                url: '/admin/users-search/',
+                data: {
+                    'q': $(this).val()
+                },
+                dataType: 'json',
+                success: function(data) {
+                    let users = JSON.parse(data);
+                    let tbody = $('#search_results');
+                    tbody.empty();
+                    $.each(users, function(index, user) {
+                        let row = $('<tr></tr>');
+                        row.append('<td>' + (index + 1) + '</td>');
+                        row.append('<td>' + user.fields.username + '</td>');
+                        row.append('<td>' + user.fields.first_name + " " + user.fields.last_name + '</td>');
+                        row.append('<td>' + user.fields.email + '</td>');
+                        let status = user.fields.is_active ? '<span class="badge text-bg-success">Activo</span>' : '<span class="badge text-bg-danger">Inactivo</span>';
+                        let superuser = user.fields.is_superuser ? '<span class="badge text-bg-primary">Admin</span> <br>' : '';
+                        row.append('<td>' + superuser + ' ' + status + '</td>');
+
+                        let btnView = '<a href="" class="btn btn-sm btn-warning"><i class="fa fa-eye"></i></a>';
+                        
+                        let urlEdit = "{% url 'admin_ssu:user_edit' 1234567890 %}".replace('1234567890', user.pk);
+
+                        let btnEdit = '<a href="'+ urlEdit +'" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>';
+                        
+                        let btnDelete = '<a href="#" class="btn btn-sm my-btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="' + user.pk + '"><i class="fa fa-trash"></i></a>';
+                        row.append('<td>'+ btnView +' '+ btnEdit +' '+ btnDelete +'</td>');
+                        tbody.append(row);
+                    });
+                }
+            });
+            $('#pagination').addClass('hidden');
+            $('#original_data').hide();
+            $('#search_results').show();
+        } else {
+            $('#pagination').removeClass('hidden');
+            $('#search_results').hide();
+            $('#search_results').empty();
+            $('#original_data').show();
+        }
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#deleteModal').on('show.bs.modal', function(e) {
+            var userId = $(e.relatedTarget).data('id');
+            var url = "{% url 'admin_ssu:delete_user' 1234567890 %}".replace('1234567890', userId);
+            $('#deleteForm').attr('action', url);
+        });
+    });
+</script>
+{% endblock js %}
+{% block css %}
+<style>
+    .search-div {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+    }
+    .search-div input {
+        width: 15rem;
+    }
+    @media (max-width: 767px) {
+        .pagi-hidden{
+            display: none;
+        }
+    }
+</style>
+{% endblock css %}

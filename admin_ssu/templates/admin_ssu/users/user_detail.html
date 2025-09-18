@@ -1,0 +1,105 @@
+{% extends "admin_ssu/master.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="heading">
+                <i class="fa fa-user"></i> Detalles De Usuario
+                <div class="mt-2">
+                    <a href="{% url 'admin_ssu:user_view' %}" class="btn btn-warning btn-sm"><i class="fa fa-arrow-left"></i> Volver</a>
+                    <a href="{% url 'admin_ssu:user_edit' user.id %}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Editar</a>
+                    <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash"></i> Eliminar</a>
+                </div>
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-5 col-lg-4 order-md-2 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    {% if user.is_superuser %}
+                            <span class="badge text-bg-primary">Admin</span>
+                    {% endif %}
+                    <div class="d-flex justify-content-center">
+                        <img src="{% static "admin_ssu/img/users/default.png" %}" alt="" width="235px">
+                    </div>
+                    <div class="text-center">
+                        <h4>Nombre De Usuario:</h4>
+                        <p class="p-username">{{ user.username }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-7 col-lg-8">
+            <div class="card">
+                <div class="card-body p-5">
+                    <div class="panel-view">
+                        <p>Nombre Completo</p>
+                        <p>{{ user.first_name |upper }} {{ user.last_name |upper }}</p>
+                        <hr>
+                    </div>
+                    <div class="panel-view">
+                        <p>Email</p>
+                        <p>{{ user.email }}</p>
+                        <hr>
+                    </div>
+                    <div class="panel-view">
+                        <p>Estado</p>
+                        {% if user.is_active %}
+                            <p>Activo</p>
+                        {% else %}
+                            <p>Inactivo</p>
+                        {% endif %}
+                        <hr>
+                    </div>
+                    <div class="panel-view">
+                        <p>Roles</p>
+                        {% for group in user.groups.all %}
+                            <p>{{ group.name }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header my-bg-danger" data-bs-theme="dark">
+          <h1 class="modal-title fs-5" id="deleteModalLabel"> <i class="fa fa-trash"></i> Eliminar</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">  
+            <p>¿Está seguro de eliminar este usuario?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-gray" data-bs-dismiss="modal">Cancelar</button>
+          <form action="{% url 'admin_ssu:delete_user' user.id %}" method="POST" id="deleteForm">
+            {% csrf_token %}
+            <button type="submit" class="btn my-btn-danger">Eliminar</button>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+{% block css %}
+<style>
+    .panel-view p{
+        font-weight: 300;
+        padding-left: 0.5rem;
+    }
+    .panel-view p:first-of-type {
+        font-size: 1.3rem;
+        font-weight: 400;
+        {% comment %} color: gray; {% endcomment %}
+    }
+    .p-username{
+        font-size: 1.5rem;
+        font-weight: 300;
+    }
+</style>
+{% endblock css %}

@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        
+        {% endblock title %}
+    </title>
+    <link rel="stylesheet" href="{% static 'admin_ssu/bootstrap/css/bootstrap.min.css' %}">
+    <!-- reference CSS file -->
+    {% block css %}
+    
+    {% endblock css %}
+</head>
+<body>
+    <header>
+
+    </header>
+    <main>
+        {% block content %}
+        
+        {% endblock content %}
+    </main>
+    <footer>
+
+    </footer>
+    <script src="{% static 'admin_ssu/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    {% block js %}
+    
+    {% endblock js %}
+</body>
+</html>

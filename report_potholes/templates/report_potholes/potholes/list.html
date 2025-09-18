@@ -1,0 +1,73 @@
+<div class="table-responsive">
+    <div class="col-12">
+    
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr >
+                    <th>N#</th>
+                    <th>imagen</th>
+                    <th>Titulo</th>
+                    <th>Gestion</th>
+                    <th>Categoria</th>
+                    <th>Ubicación</th>
+                    {% comment %} <th>Registrado por</th> {% endcomment %}
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pothole in potholes %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <img src="{{ pothole.thumbnail.url}}" alt="" width="200px">    
+                    </td>
+                    <td>
+                        {{ pothole.title }}
+                    </td>
+                    <td>
+                        {{ pothole.year_management}}
+                    </td>
+                    <td>
+                        {% if pothole.category %}
+                            {{ pothole.category.name }}
+                        {% else  %}
+                            Sin categoria
+                        {% endif %}
+                    </td>
+                    <td>
+                        latitud: {{ pothole.latitude }} <br>
+                        longitud: {{ pothole.longitude }}
+                    </td>
+                    {% comment %} <td>
+                        {% if pothole.reported_by %}
+                        NOMBRE: {{ pothole.reported_by|upper}}
+                        {% endif %}
+                        <br>
+                        {% if pothole.phone %}
+                            CEL: {{ pothole.phone }}
+                        {% endif %}
+                        
+                    </td> {% endcomment %}
+                    <td>
+                        {% if perms.report_potholes.view_pothole %}
+                        <a href="{% url 'admin_ssu:report_potholes:pothole_detail' pothole.id %}" class="btn btn-sm btn-warning"><i class="fa fa-eye"></i><span class="txt-btn"> Detalles</span></a>
+                        {% endif %}
+                        {% if perms.report_potholes.change_pothole %}
+                        <a href="{% url 'admin_ssu:report_potholes:pothole_edit' pothole.id %}" class="btn btn-sm btn-primary"><i class="fa fa-edit">
+                            </i><span class="txt-btn"> Editar</span>
+                        </a>
+                        {% endif %}
+                        {% if perms.report_potholes.delete_pothole %} 
+                        <a href="#" data-id="{{ pothole.id }}" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="fa fa-trash"></i><span class="txt-btn"> Eliminar</span>
+                        </a>
+                        {% endif %}
+                        
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% include "admin_ssu/utils/pagination.html" %}

@@ -1,0 +1,162 @@
+{% extends "admin_ssu/master.html" %}
+{% block title %} Map {% endblock title %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col mb-3">
+            <h1 class="heading">
+                <i class="fa fa-map-marker"></i> Mapa del 
+            </h1>
+            <a href="{% url 'admin_ssu:report_potholes:potholes_browse' %}" class="btn btn-sm btn-warning"><i class="fa fa-arrow-left"></i> Volver</a>
+            {% if perms.report_potholes.change_pothole %} 
+            <a href="{% url 'admin_ssu:report_potholes:pothole_edit' pothole.id %}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Editar</a>
+            {% endif %}
+            {% if perms.report_potholes.delete_pothole %}
+            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ pothole.id }}"><i class="fa fa-trash"></i> Descartar</button>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="div-detail">
+                        <label>Titúlo</label>
+                        <p>{{pothole.title}}</p>
+                        <hr>
+                    </div>
+                    <div class="div-detail">
+                        <label>imagen Destacada</label>
+                        <img class="img" src="{{ pothole.display_image.url }}" alt="Foto" width="300px">
+                        <hr>
+                    </div>
+                    <div class="div-detail">
+                        <label>Gestión</label>
+                        <p>{{pothole.year_management}}</p>
+                        <hr>
+                    </div>
+                    <div class="div-detail">
+                        <label>Categoria</label>
+                        <p>{{ pothole.category.name }}</p>
+                        <hr>
+                    </div>
+                    <div class="div-detail">
+                        <label>Descripción </label>
+                        <p class="contenido">
+                            {{ pothole.description }}
+                        </p>
+                    </div>
+                    {% comment %} <div id="mapid" style="height: 400px; width: 100%;"></div> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="aproveModal" tabindex="-1" aria-labelledby="aproveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success" data-bs-theme="dark">
+                <h1 class="modal-title fs-5" id="aproveModalLabel" style="color: white;"> <i class="fa fa-thumbs-up"></i> Aprobar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">  
+                <p>¿Está seguro de que desea aprobar este registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-gray" data-bs-dismiss="modal">Cancelar</button>
+                <form action="" method="POST" id="aproveForm">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Aprobar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger" data-bs-theme="dark">
+          <h1 class="modal-title fs-5" id="deleteModalLabel" style="color: white;"> <i class="fa fa-trash"></i> Descartar</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">  
+            <p>¿Está seguro de que desea descartar este ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-gray" data-bs-dismiss="modal">Cancelar</button>
+          <form action="" method="POST" id="deleteForm">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock content %}
+{% block js %}
+<script>
+    $(document).ready(function() {
+        $('#deleteModal').on('show.bs.modal', function(e) {
+            var userId = $(e.relatedTarget).data('id');
+            var url = "{% url 'admin_ssu:report_potholes:delete_pothole' 1234567890 %}".replace('1234567890', userId);
+            $('#deleteForm').attr('action', url);
+        });
+    });
+</script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var potholeData = {{ potholejs|safe }};
+    var nearbyPotholesData = {{ nearby_potholes|safe }};
+
+    var map = L.map('mapid').setView([parseFloat(potholeData.latitude), parseFloat(potholeData.longitude)], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+        maxZoom: 19,
+    }).addTo(map);
+
+    L.marker([parseFloat(potholeData.latitude), parseFloat(potholeData.longitude)]).addTo(map)
+        .bindPopup('<span> Actual.</span> <br/> <img src="{{ pothole.thumbnail.url }}" width="80px"/>')
+        .openPopup();
+    var greenIcon = L.icon({
+        iconUrl: 'https://cdn-icons-png.flaticon.com/128/889/889647.png',
+        iconSize: [25, 41], // size of the icon
+        iconAnchor: [0, 41], // point of the icon which will correspond to marker's location
+        popupAnchor: [18, -40] // point from which the popup should open relative to the iconAnchor
+    });
+    for (var i = 0; i < nearbyPotholesData.length; i++) {
+        L.marker([parseFloat(nearbyPotholesData[i].latitude), parseFloat(nearbyPotholesData[i].longitude)],{icon: greenIcon}).addTo(map)
+            .bindPopup('<a href="' + nearbyPotholesData[i].url + '" target="_blank"> registrado.</a>');
+    }
+</script>
+{% endblock js %}
+{% block css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+    .search-div {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+    }
+    .search-div input {
+        width: 15rem;
+    }
+    @media (max-width: 767px) {
+        .pagi-hidden{
+            display: none;
+        }
+    }
+    .div-detail{
+        padding: 0 10px;
+    }
+    .div-detail label{
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+</style>
+
+{% endblock css %}

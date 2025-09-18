@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'admin_ssu/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'reportbump/css/style.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    {% comment %} <link rel="icon" href="{% static 'reportbump/logos/logo.ico' %}"> {% endcomment %}
+    <!-- reference CSS file -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLMSSJH905"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-JLMSSJH905');
+    </script>
+    <title>
+        {% block title %}
+        
+        {% endblock title %}
+    </title>
+    {% block css %}
+    
+    {% endblock css %}
+</head>
+<body>
+    <header>
+        {% include 'reportbump/layouts/header_page.html' %}
+    </header>
+    <main>
+        {% block content %}
+            
+        {% endblock content %}
+    </main>
+    <footer class="footer">
+        {% include 'reportbump/layouts/footer.html' %}
+    </footer>
+    <!-- scroll top button -->
+    {% comment %} <a href="#home" class="fa fa-chevron-up" id="scroll-top"></a> {% endcomment %}
+    
+    <script src="{% static 'admin_ssu/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static "reportbump/js/script.js" %}"></script>
+    {% block js %}
+    
+    {% endblock js %}
+</body>
+</html>

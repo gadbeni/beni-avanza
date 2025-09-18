@@ -1,0 +1,47 @@
+<div class="table-responsive">
+    <div class="col-12">
+    
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>N#</th>
+                    <th>Nombre</th>
+                    <th>Icono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in object_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    {% comment %} <td>
+                        <img src="{{ pothole.thumbnail.url}}" alt="" width="200px">    
+                    </td> {% endcomment %}
+                    <td>
+                        {{ category.name }}
+                    </td>
+                    <td>
+                        {% if category.icon %}
+                            <img src="{{ category.icon.url }}" alt="" width="50px">
+                        {% else %}
+                            <span class="text-muted
+                            ">No tiene icono</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        {% if perms.report_potholes.change_categoryprivate %}
+                            <a href="{% url 'admin_ssu:report_potholes:categoryp_edit' category.id %}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i><span class="txt-btn"> Editar</span></a>
+                        {% endif %}
+                        {% if perms.report_potholes.delete_categoryprivate %} 
+                        <a href="#" data-id="{{ category.id }}" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="fa fa-trash"></i> <span class="txt-btn"> Eliminar </span>
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% include "admin_ssu/utils/pagination.html" %}

@@ -1,0 +1,110 @@
+{% extends "admin_ssu/master.html" %}
+{% block title %} Dirigentes {% endblock title %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="heading">
+                <i class="fa fa-user-secret"></i> Dirigentes
+                {% if perms.report_potholes.add_agent %}
+                <a href="{% url "admin_ssu:report_potholes:agent_add" %}" class="btn btn-primary"><i class="fa fa-plus-circle"></i>Nuevo</a>
+                {% endif %}
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="search-div">
+                        <select name="paginate_by" id="paginate_by" class="form-select" style="width: fit-content;">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <input class="form-control" type="text" id="search" placeholder="Buscar Dirigente">
+                    </div>
+                    <div id='results'>
+
+                    </div>   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger" data-bs-theme="dark">
+          <h1 class="modal-title fs-5" id="deleteModalLabel" style="color: white;"> <i class="fa fa-trash"></i> Descartar</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">  
+            <p>¿Está seguro de que desea descartar este ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-gray" data-bs-dismiss="modal">Cancelar</button>
+          <form action="" method="POST" id="deleteForm">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock content %}
+{% block js %}
+<script>
+    /*<- traer la lista*/
+    $(document).ready(function() {
+        function load_data(search, paginate_by, page) {
+            $.ajax({
+                url: "{% url 'admin_ssu:report_potholes:agent_list' %}",
+                method: "GET",
+                data: {
+                    search: search,
+                    paginate_by: paginate_by,
+                    page: page
+                },
+                success: function(data) {
+                    $('#results').html(data);
+                }
+            });
+        }
+        function load_data_query(page) {
+            var search = $('#search').val();
+            var paginate_by = $('#paginate_by').val();
+            load_data(search, paginate_by,page);
+        }
+        load_data_query(1);
+
+        $('#search').keyup(function() {
+            load_data_query(1);
+        });
+        $('#paginate_by').change(function() {
+            load_data_query(1);
+        });
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault();
+            var page = $(this).attr('data-page');
+            load_data_query(page);
+        });
+    });
+    
+    /* traer la lista->*/
+    $(document).ready(function() {
+        $('#deleteModal').on('show.bs.modal', function(e) {
+            var userId = $(e.relatedTarget).data('id');
+            var url = "{% url 'admin_ssu:report_potholes:agent_delete' 1234567890 %}".replace('1234567890', userId);
+            $('#deleteForm').attr('action', url);
+        });
+    });
+</script>
+{% endblock js %}
+{% block css %}
+<style>
+</style>
+{% endblock css %}

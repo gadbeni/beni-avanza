@@ -1,0 +1,100 @@
+
+{% extends "reportbump/layouts/base_vacio.html" %}
+{% load static %}
+{% block title %}Mapa{% endblock title %}
+{% block content %}
+<section id="main-map" class="text-bg-primary">
+    <div class="container_map">
+        <aside>
+            <nav class="menu-aside">
+                <ul>
+                    <li>
+                        <div id="menu-bar-aside" class="fa fa-bars"></div>
+                    </li>
+                    {% comment %} <li>
+                        
+                    </li> {% endcomment %}
+                </ul>
+            </nav>
+            <div id="menu-aside" class="options-aside text-bg-primary">
+                <div class="menu_top_aside">
+                    <h3 style="color:white;margin: 0;">Filtrar</h3>
+                    <i id="btn-aside" class="fa fa-close" style="font-size: 1.5rem"></i>
+                </div>
+                {% comment %} <div class="col-12 col-md d-flex justify-content-center">
+                    <img src="{% static 'reportbump/images/doctor-unzueta.png' %}" style="width: 100%; max-width: 500px">
+                </div> {% endcomment %}
+                <form class="form-filter" action="">
+                    <select name="category" id="">
+                        <option value="">Todas</option>
+                        {% for category in categories %}
+                            {% if request.GET.category == category.id|stringformat:"s" %}
+                                <option value="{{ category.id }}" selected>{{ category.name }}</option>
+                            {% else %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn my-btn-primary">Filtrar</button>
+                </form>
+            </div>
+        </aside>
+        <div class="map">
+            <div id="mapid" style="height: 100vh; width: 100%;"></div>
+            <div class="map-header text-bg-primary">
+                <p>
+                    <strong>Total:</strong> {{total_agents}}
+                </p>
+            </div>
+            <a href="{% url 'admin_ssu:home' %}" class="btn-back">
+                <i class="fa fa-arrow-circle-left"></i>
+                <span>Volver</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+{% block css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+{% endblock css %}
+{% block js %}
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var agents = JSON.parse('{{ agents|escapejs }}');
+    if (agents.length > 0) {
+        // vista inicial del mapa // -14.834850122248268, -64.90412867204859
+        var map = L.map('mapid').setView([-13.746941, -65.388259], 7);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var greenIcon = L.icon({
+            iconUrl: 'https://i.imgur.com/nH6Sg3Y.png',
+            iconSize: [45, 61], // size of the icon
+            iconAnchor: [22, 41], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -41] // point from which the popup should open relative to the iconAnchor
+        });
+        
+        agents.forEach(function(agent) {
+            //var marker = L.marker([pothole.latitude, pothole.longitude], {icon: greenIcon}).addTo(map);
+            if ( agent.category_icon != null ) {
+                console.log(agent.category_icon);
+                var iconUrl = agent.category_icon
+                var icon = L.icon({
+                    iconUrl: iconUrl,
+                    iconSize: [45, 61],
+                    iconAnchor: [22, 41],
+                    popupAnchor: [0, -41]
+                });
+                var marker = L.marker([agent.latitude, agent.longitude], {icon: icon}).addTo(map);
+            } else {
+                var marker = L.marker([agent.latitude, agent.longitude]).addTo(map);
+            }
+            //console.log(pothole);
+            marker.bindPopup('<div style="text-align: center" ><a class="pop-maker" href="'+ agent.url +'"><span>'+ agent.title +'</span><br> <img src="' + agent.image + '" alt="" width="100px"></div></a>');
+        });
+    }
+</script>
+{% endblock js %}

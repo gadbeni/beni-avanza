@@ -1,0 +1,188 @@
+{% extends "admin_ssu/master.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="heading">
+                <i class="fa fa-bookmark"></i> {{action}} Proyecto
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body p-5">
+                    <form class="form-user" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <p>
+                                {{ field.label_tag }} {{ field }}
+                                {{ field.errors }}
+                                {% if field.help_text %}
+                                    <span class="form-text text-muted">{{ field.help_text }}</span>
+                                {% endif %}
+                            </p>
+                        {% endfor %}
+                        {% comment %} {{ form.as_p }} {% endcomment %}
+                        <div id="mapid" style="height: 280px; width: 100%;"></div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %} document.getElementById('id_latitude').value = e.target.getLatLng().lat.toFixed(7);
+document.getElementById('id_longitude').value = e.target.getLatLng().lng.toFixed(7); {% endcomment %}
+{% endblock %}
+{% block js %}
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    console.log("vista correcta")
+    var map = L.map('mapid').setView([-14.835, -64.90], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+
+    var marker = L.marker([-14.835, -64.90428], {draggable: true}).addTo(map);
+    {% if action == 'Editar' %}
+        var lat = document.getElementById('id_latitude').value;
+        var lng = document.getElementById('id_longitude').value;
+        marker.setLatLng([lat, lng]);
+        map.setView([lat, lng], 13);
+    {% endif %}
+    {% comment %} var marker = L.marker([lat, lng], {draggable: true}).addTo(map); {% endcomment %}
+
+    function updateLatLng(e) {
+      
+      document.getElementById('id_latitude').value = e.latlng.lat.toFixed(7);
+      document.getElementById('id_longitude').value = e.latlng.lng.toFixed(7);
+      marker.setLatLng(e.latlng);
+    }
+    function updateMarkerFromInput() {
+        var lat = parseFloat(document.getElementById('id_latitude').value);
+        var lng = parseFloat(document.getElementById('id_longitude').value);
+        if (!isNaN(lat) && !isNaN(lng)) {
+            var location = [lat, lng];
+            marker.setLatLng(location);
+            map.setView(location);
+        }
+    }
+
+    map.on('click', updateLatLng);
+    marker.on('dragend',function(e){
+        var latlng = e.target.getLatLng();
+        document.getElementById('id_latitude').value = latlng.lat.toFixed(7);
+        document.getElementById('id_longitude').value = latlng.lng.toFixed(7);
+        marker.setLatLng(latlng);
+    });
+
+    document.getElementById('id_latitude').addEventListener('blur', updateMarkerFromInput);
+    document.getElementById('id_longitude').addEventListener('blur', updateMarkerFromInput);
+</script>
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+.form-user p{
+
+}
+.form-user p label{
+    display: block;
+    font-weight: bold;
+}
+.form-user p input[type='text'], .form-user p input[type='email'], .form-user p input[type='password']{
+    width: 100%;
+    padding: 0.2rem;
+    border: 0.1rem solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.form-user p span{
+    padding-left: 0.5rem;
+}
+.form-user p select{
+    width: 100%;
+    padding: 0.2rem;
+    border: 0.1rem solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+
+}
+.form-user p input[type='checkbox']{
+
+}
+ul{}
+ul li{
+    font-size: 0.8rem;
+
+    list-style: none;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+{% endblock css %}

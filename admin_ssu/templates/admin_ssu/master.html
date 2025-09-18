@@ -1,0 +1,229 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        
+        {% endblock title %}
+    </title>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="{% static 'admin_ssu/bootstrap/css/bootstrap.min.css' %}">
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- reference CSS file -->
+    <style>
+        :root {
+            --main-color: #0D6EFD;
+            --main-color-10: #1270fd;
+            --main-color-20: #2179fd;
+            --main-color-30: #0262f2;
+            --ligth-color: #fff;
+            --gray-color: #ccc;
+
+            --danger-color: #FA3E18;
+            --danger-color-10: #F52D05;
+        }
+        body{
+            background-color: #fcfcfc;
+        }
+        .bg-navbar{
+            background-color: var(--ligth-color);
+            border-bottom: 0.1rem solid var(--gray-color);
+        }
+        .card{
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.2rem 0.5rem rgba(0,0,0,0.2);
+        }
+        .dropdown-navbar .dropdown-menu{
+            width: 225px;
+        }
+        .dropdown-menu-links{
+            padding: 0rem;
+        }
+        #menu-profile .dropdown-item:active{
+            background-color: white;
+            color: black;
+        }
+        .user-info{
+            display: flex;
+            padding: 0.5rem;
+            overflow: hidden;
+        }
+        p.name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 130px;
+        }
+        .user-info .user-name{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start; 
+        }
+        .user-info .user-name p{
+            margin: 0;
+        }
+        .user-info .user-name .name{
+            font-size: 1rem;
+            font-weight: 500;
+            color: gray;
+        }
+        .user-info .user-name .email{
+            font-size: 0.7rem;
+            color: gray;
+        }
+        .btn-orange{
+            background-color: var(--danger-color);
+            color: var(--ligth-color);
+            border-radius: 0.2rem;
+        }
+        .btn-orange:hover{
+            background-color: var(--danger-color-10);
+            color: var(--ligth-color);
+        }
+        .btn-logout{
+            background-color: var(--danger-color);
+            color: var(--ligth-color);
+            border-radius: 0.2rem;
+            width: 100%;
+        }
+        .btn-logout:hover{
+            background-color: var(--danger-color-10);
+            color: var(--ligth-color);
+        }
+        .my-btn-danger{
+            background-color: var(--danger-color);
+            color: var(--ligth-color);
+            {% comment %} border-radius: 0.2rem; {% endcomment %}
+        }
+        .my-btn-danger:hover{
+            background-color: var(--danger-color-10);
+            color: var(--ligth-color);
+        }
+        .my-bg-danger{
+            background-color: var(--danger-color);
+            color: var(--ligth-color);
+        }
+        .btn-gray{
+            background-color: var(--gray-color);
+        }
+        .btn-gray:hover{
+            background-color: var(--gray-color);
+        }
+        .offcanvas-body{
+            padding: 0;
+            {% comment %} background-color: gray; {% endcomment %}
+        }
+        .nav-item{
+            width: 100%;
+        }
+        .nav-link{
+            font-size: 1.2rem;
+            padding: 0.5rem 1.2rem;
+        }
+        .nav-link:hover{
+            background-image: linear-gradient(to right, var(--main-color-10),var(--main-color-20) );
+            color: var(--ligth-color);
+        }
+        .nav-link i{
+            font-size: 1.5rem;
+            padding-right: 0.5rem;
+        }
+        .offcanvas-body .dropdown-menu {
+            padding: 0;
+
+            background-color: var(--main-color-30);
+            border: none;
+        }
+        .offcanvas-body .dropdown-item{
+            font-size: 1.2rem;
+            padding: 0.5rem 1.2rem;
+            padding-left: 2.5rem;
+        }
+        .offcanvas-body .dropdown-item:hover{
+            background-image: linear-gradient(to right, var(--main-color-10), var(--main-color-20));
+            color: var
+        }
+        {% comment %} dropdown navbar {% endcomment %}
+        .dropdown-navbar{
+
+        }
+        .btn-dropdown-navbar{
+            border: none;
+        }
+        .btn-dropdown-navbar i{
+            font-size: 1.5rem;
+        }
+        .btn-dropdown-navbar:hover{
+            color: var(--main-color-20);
+        }
+
+        main{
+            padding-top: 4rem;
+        }
+        .heading{
+            font-size: 1.7rem;
+            font-weight: 500;
+
+            padding: 0.5rem 1rem;
+        }
+        .heading i{
+            padding-right: 0.5rem;
+        }
+        .hidden{
+            display: none;
+        }
+        /* Error list */
+        .errorlist{
+            padding: 0.2rem 1rem;
+            background-color: #F8D7DA;
+            border: 0.1rem solid #F1AEB5;
+            border-radius: 0.5rem;
+        }
+        .search-div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .search-div input {
+            width: 15rem;
+        }
+        @media (max-width: 767px) {
+            .pagi-hidden{
+                display: none;
+            }
+            .txt-btn{
+                display: none;
+            }
+        }
+    </style>
+    {% block css %}
+    
+    {% endblock css %}
+</head>
+<body>
+    <header>
+        {% include "admin_ssu/layouts/header.html" %}
+    </header>
+    <main class="mb-5">
+        {% block content %}
+        
+        {% endblock content %}
+    </main>
+    <footer>
+
+    </footer>
+    <script src="{% static 'admin_ssu/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'admin_ssu/jquery/jquery.min.js' %}"></script>
+    {% comment %} link {% endcomment %}
+    {% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> {% endcomment %}
+    {% block js %}
+    
+    {% endblock js %}
+</body>
+</html>

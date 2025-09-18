@@ -1,0 +1,20 @@
+{% extends "reportbump/layouts/base.html" %}
+{% block title %}El Beni Avanza{% endblock title %}
+{% block content %}
+<section id="home"class="home">
+    {% comment %} <h1 class="heading main">Reporta <span>ya</span></h1> {% endcomment %}
+    <div class="content">
+        <p class="p-thanks">
+            
+            <i class="fa fa-paper-plane"></i>
+            <br>
+            Muchas gracias por tu reporte, tu ayuda es muy importante para mejorar nuestra ciudad.
+            
+        </p>
+        
+        <a href="{% url "index" %}" class="btn-red">
+            Volver al inicio
+        </a>
+    </div>
+</section>
+{% endblock content %}
