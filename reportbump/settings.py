@@ -68,6 +68,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ← ¡AGREGA ESTA LÍNEA!
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,6 +76,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'reportbump.urls'
 
@@ -164,13 +166,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 DEBUG = True  # Debe ser True para desarrollo
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # Cambia esta línea
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # Y esta
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR/'static'
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Y esta también
+MEDIA_ROOT = BASE_DIR/'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -181,3 +182,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'admin_ssu:login'
 LOGIN_REDIRECT_URL = 'admin_ssu:home'
 LOGOUT_REDIRECT_URL = 'admin_ssu:login'
+
+# Agrega esta configuración para ignorar archivos .map
+WHITENOISE_IGNORE_PATTERNS = [
+    # Ignorar archivos source maps
+    "*.map",
+    # Ignorar otros archivos innecesarios
+    "README",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG",
+    "*.txt",
+]
+
+# Usa una versión más simple de almacenamiento
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
