@@ -38,7 +38,7 @@ class ProyectForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'required': 'required'}),
             'category': forms.Select(attrs={'class': 'form-select'}),
-            'photo': forms.FileInput(attrs={'class': 'form-control-file'}),
+            'photo': forms.FileInput(attrs={'class': 'form-control-file', 'required': False}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'year_management': forms.Select(attrs={'class': 'form-control','required': 'required'}),
             'latitude': forms.NumberInput(attrs={'class': 'form-control','required': 'required'},),

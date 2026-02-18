@@ -18,7 +18,7 @@ class Pothole(models.Model):
     title = models.CharField('título',max_length=255, null=True, blank=True)
     description = models.TextField('descripción', null=True, blank=True)
     approved = models.BooleanField('aprobado',default=False)
-    photo = models.ImageField('foto',upload_to='potholes/')
+    photo = models.ImageField('foto',upload_to='potholes/', null=True, blank=True)
     thumbnail = ImageSpecField(source='photo',
                                processors=[ResizeToFit(300)],  # Cambia el tamaño de la imagen para que encaje en un cuadro de 800x800, manteniendo la relación de aspecto
                                format='JPEG',

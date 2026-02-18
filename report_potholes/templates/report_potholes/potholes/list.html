@@ -19,7 +19,11 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>
-                        <img src="{{ pothole.thumbnail.url}}" alt="" width="200px">    
+                        {% if pothole.photo %}
+                            <img src="{{ pothole.thumbnail.url}}" alt="" width="200px">
+                        {% else %}
+                            <span class="badge bg-secondary">Sin imagen</span>
+                        {% endif %}    
                     </td>
                     <td>
                         {{ pothole.title }}

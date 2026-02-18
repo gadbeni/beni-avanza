@@ -108,7 +108,11 @@
     }).addTo(map);
 
     L.marker([parseFloat(potholeData.latitude), parseFloat(potholeData.longitude)]).addTo(map)
+        {% if pothole.photo %}
         .bindPopup('<span>Actual.</span> <br/> <img src="{{ pothole.thumbnail.url }}" width="80px"/>')
+        {% else %}
+        .bindPopup('<span>Actual.</span> <br/> <span class="badge bg-secondary">Sin imagen</span>')
+        {% endif %}
         .openPopup();
     var greenIcon = L.icon({
         iconUrl: 'https://cdn-icons-png.flaticon.com/128/889/889647.png',
