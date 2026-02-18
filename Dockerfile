@@ -28,6 +28,7 @@ ENV PYTHONUNBUFFERED=1 \
 
 # Cambiar propietario de los archivos de la aplicación
 RUN chown -R appuser:appuser /app
+RUN mkdir -p /app/media && chown -R 1000:1000 /app/media
 
 # Cambiar al usuario no root
 USER appuser
