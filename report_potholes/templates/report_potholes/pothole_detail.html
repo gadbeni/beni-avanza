@@ -14,7 +14,11 @@
             <h1 class="subtitle" style="font-size: 2rem; font-weight: 300">{{pothole.title}}</h1>
         </div>
         <div class="d-flex justify-content-center mb-5 ">
-            <img class="img" src="{{ pothole.display_image.url }}" alt="Imagen proyecto" style="min-width: 300; max-width: 600px">
+            {% if pothole.photo %}
+                <img class="img" src="{{ pothole.display_image.url }}" alt="Imagen proyecto" style="min-width: 300; max-width: 600px">
+            {% else %}
+                <span class="badge bg-secondary">Sin imagen</span>
+            {% endif %}
         </div>
         <h2>Gestión: {{pothole.year_management}}</h2>
         {% if pothole.category %}
